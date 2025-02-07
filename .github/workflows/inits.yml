@@ -1,43 +1,13 @@
-name: Update APT and Install Packages
+
+name: SSH Access via tmate
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
 
 jobs:
-  update-apt:
+  ssh-access:
     runs-on: ubuntu-latest
     steps:
-      - name: Get username
-        run: whoami
-      - name: Get ip addr
-        run: ip address
-      - name: Run APT update and upgrade
-        run: sudo apt update && sudo apt upgrade -y
-
-      - name: Install essential packages
-        run: sudo apt install -y curl git openssh-server
-
-      - name: Verify installed packages
-        run: |
-          curl --version
-          git --version
-          ssh -V
-
-      - name: Check SSH Service Status
-        run: sudo systemctl status ssh --no-pager
-
-      - name: Enable SSH Server to Start at Boot
-        run: sudo systemctl enable ssh
-
-      - name: Allow SSH Through the Firewall
-        run: sudo ufw allow ssh && sudo ufw --force enable
-
-      - name: Check Firewall Rules
-        run: sudo ufw status verbose
+      - name: Start SSH Debugging Session
+        uses: mxschmitt/action-tmate@v3
 
